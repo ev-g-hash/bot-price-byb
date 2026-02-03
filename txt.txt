@@ -1,0 +1,11 @@
+symbol - торговая пара
+bid1Price - цена покупки
+ask1Price - цена продажи
+prevPrice24h - цена за 24 часа
+price24hPcnt - процент изменения за 24 часа
+highPrice24h - максимальная цена за сутки
+lowPrice24h - минимальная цена за сутки
+turnover24h - оборот торгов за 24 часа
+volume24h - объем торгов за 24 часа
+usdIndexPrice - цена USD индекса
+category - категория
