@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Рыночные данные криптовалют</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'market/css/market_styles.css' %}">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>📊 Рыночные данные криптовалют</h1>
+            <div class="stats">
+                <span class="stat-item">
+                    <span class="stat-label">Всего пар:</span>
+                    <span class="stat-value">{{ total_count }}</span>
+                </span>
+                <span class="stat-item">
+                    <span class="stat-label">Показано:</span>
+                    <span class="stat-value" id="visibleCount">{{ total_count }}</span>
+                </span>
+            </div>
+        </header>
+        
+        <!-- Твои контроллеры -->
+        <div class="controls">
+            <div class="search-container">
+                <input type="text" id="searchInput" placeholder="🔍 Поиск по торговой паре..." class="search-input">
+            </div>
+            <!-- Остальные элементы управления можно оставить или убрать -->
+            <div class="sort-container">
+                <button id="refreshBtn" class="sort-btn" onclick="location.reload();">🔄 Обновить</button>
+            </div>
+        </div>
+
+        <div class="table-wrapper">
+            <table id="marketTable" class="market-table">
+                <thead>
+                    <tr>
+                        <th data-column="symbol" class="sortable">📈 Торговая пара</th>
+                        <th data-column="bid_price" class="sortable">💵 Цена покупки</th>
+                        <th data-column="ask_price" class="sortable">💸 Цена продажи</th>
+                        <th data-column="price_24h_pcnt" class="sortable">📈 Изменение 24ч (%)</th>
+                        <th data-column="volume_24h" class="sortable">📦 Объем 24ч</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody">
+                    {% for ticker in tickers %}
+                    <tr class="data-row" data-symbol="{{ ticker.symbol }}">
+                        <td class="symbol-cell"><strong>{{ ticker.symbol }}</strong></td>
+                        <td class="price-cell">{{ ticker.bid_price }}</td>
+                        <td class="price-cell">{{ ticker.ask_price }}</td>
+                        
+                        <!-- Логика цвета для изменения цены -->
+                        <td class="change-cell 
+                            {% if ticker.price_24h_pcnt > 0 %}positive
+                            {% elif ticker.price_24h_pcnt < 0 %}negative
+                            {% else %}neutral{% endif %}">
+                            {% if ticker.price_24h_pcnt > 0 %}+{% endif %}{{ ticker.price_24h_pcnt|floatformat:2 }}%
+                        </td>
+                        
+                        <td class="volume-cell">{{ ticker.volume_24h }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="{% static 'market/js/market_script.js' %}"></script>
+</body>
+</html>
